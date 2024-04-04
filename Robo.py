@@ -1,5 +1,6 @@
 import docker
 import time
+import threading
 
 class Robo:
         
@@ -24,5 +25,18 @@ class Robo:
                 break
             time.sleep(5)  # Verifica a cada 5 segundos se o contêiner ainda está em execução
 
+    @staticmethod
+    def inicia_container(quantidade):
+        threads = []
+
+        for _ in range(quantidade):
+            thread = threading.Thread(target=Robo.sobe_container_chrome)
+            threads.append(thread)
+            thread.start()
+
+        for thread in threads:
+            thread.join()
+
 if __name__ == "__main__":
-    Robo.sobe_container_chrome()
+    containers = int(input("Digite a quantidade de containers que deseja subir: "))
+    Robo.inicia_container(quantidade=containers)
