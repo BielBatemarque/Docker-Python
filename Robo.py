@@ -37,6 +37,17 @@ class Robo:
         for thread in threads:
             thread.join()
 
+    @staticmethod
+    def derruba_containers():
+        cliente = docker.from_env()
+        containers = cliente.containers.list()
+        
+        for container in containers:
+            container.stop()
+
+
 if __name__ == "__main__":
     containers = int(input("Digite a quantidade de containers que deseja subir: "))
     Robo.inicia_container(quantidade=containers)
+
+    Robo.derruba_containers()
